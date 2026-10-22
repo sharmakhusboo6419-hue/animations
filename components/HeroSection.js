@@ -21,6 +21,9 @@ export default function HeroSection() {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    let mm;
+    const cleanupFns = [];
+    let isUnmounted = false;
 
     const ctx = gsap.context(() => {
       const headlineChars = root.querySelectorAll(".headline-char");
@@ -86,7 +89,7 @@ export default function HeroSection() {
         )
         .to(cue, { opacity: 1, y: 0, duration: 0.4 }, "-=0.3");
 
-      const mm = gsap.matchMedia();
+      mm = gsap.matchMedia();
 
       const scrollOptions = {
         trigger: pinRef.current,
@@ -160,7 +163,7 @@ export default function HeroSection() {
         const scrollTl = gsap.timeline({
           scrollTrigger: {
             ...scrollOptions,
-            end: "+=180%",
+            end: "+=220%",
           },
           defaults: { ease: "none" },
         });
@@ -170,16 +173,58 @@ export default function HeroSection() {
           .to(cue, { opacity: 0, duration: 0.12 }, 0.08)
           .to(
             can,
-            { yPercent: -6, rotate: 6, scale: 1.05, duration: 0.4 },
+            { xPercent: -6, yPercent: -20, rotate: 10, scale: 1.08, duration: 0.34 },
             0.1,
           )
-          .to(rings, { opacity: 0.4, scale: 1, duration: 0.2 }, 0.5)
-          .to(brandCopy, { opacity: 1, y: 0, duration: 0.22 }, 0.52)
-          .to(can, { yPercent: 2, rotate: 0, scale: 1.02, duration: 0.22 }, 0.72);
+          .to(
+            can,
+            { xPercent: 7, yPercent: -8, rotate: -5, scale: 1.12, duration: 0.3 },
+            0.46,
+          )
+          .to(rings, { opacity: 0.45, scale: 1, duration: 0.2 }, 0.52)
+          .to(brandCopy, { opacity: 1, y: 0, duration: 0.22 }, 0.54)
+          .to(
+            can,
+            { xPercent: 0, yPercent: 0, rotate: 0, scale: 1.04, duration: 0.22 },
+            0.76,
+          );
       });
+
+      const refreshScroll = () => {
+        if (!isUnmounted) ScrollTrigger.refresh();
+      };
+
+      const rafOne = requestAnimationFrame(() => {
+        const rafTwo = requestAnimationFrame(refreshScroll);
+        cleanupFns.push(() => cancelAnimationFrame(rafTwo));
+      });
+      cleanupFns.push(() => cancelAnimationFrame(rafOne));
+
+      const onLoad = () => refreshScroll();
+      window.addEventListener("load", onLoad);
+      cleanupFns.push(() => window.removeEventListener("load", onLoad));
+
+      const images = Array.from(root.querySelectorAll("img"));
+      const pending = images.filter((img) => !img.complete);
+      if (pending.length) {
+        const imagePromises = pending.map(
+          (img) =>
+            new Promise((resolve) => {
+              const done = () => resolve();
+              img.addEventListener("load", done, { once: true });
+              img.addEventListener("error", done, { once: true });
+            }),
+        );
+        Promise.all(imagePromises).then(refreshScroll);
+      }
     }, root);
 
-    return () => ctx.revert();
+    return () => {
+      isUnmounted = true;
+      cleanupFns.forEach((cleanup) => cleanup());
+      if (mm) mm.revert();
+      ctx.revert();
+    };
   }, []);
 
   return (

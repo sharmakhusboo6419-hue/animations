@@ -1,26 +1,76 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --fizz-void: #10080c;
+  --fizz-charcoal: #1a1014;
+  --fizz-burgundy: #6e1f2e;
+  --fizz-wine: #8b2d3c;
+  --fizz-cream: #f3e6d4;
+  --fizz-gold: #c9a66b;
+  --fizz-mist: rgba(243, 230, 212, 0.62);
+  --background: var(--fizz-void);
+  --foreground: var(--fizz-cream);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-fizz-void: var(--fizz-void);
+  --color-fizz-charcoal: var(--fizz-charcoal);
+  --color-fizz-burgundy: var(--fizz-burgundy);
+  --color-fizz-wine: var(--fizz-wine);
+  --color-fizz-cream: var(--fizz-cream);
+  --color-fizz-gold: var(--fizz-gold);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-oswald);
+  --font-serif: var(--font-cormorant);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--fizz-void);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--fizz-void);
+  color: var(--fizz-cream);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+.hero-grain {
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+}
+
+.can-stage {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .can-stage {
+    will-change: auto;
+  }
+
+  .scroll-cue-line {
+    animation: none !important;
+  }
+}
+
+.scroll-cue-line {
+  transform-origin: top center;
+  animation: cue-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes cue-pulse {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+    opacity: 0.35;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
 }

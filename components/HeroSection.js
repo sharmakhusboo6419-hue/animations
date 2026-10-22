@@ -88,16 +88,21 @@ export default function HeroSection() {
 
       const mm = gsap.matchMedia();
 
+      const scrollOptions = {
+        trigger: pinRef.current,
+        start: "top top",
+        pin: true,
+        scrub: 1,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        pinReparent: false,
+      };
+
       mm.add("(min-width: 768px)", () => {
         const scrollTl = gsap.timeline({
           scrollTrigger: {
-            trigger: pinRef.current,
-            start: "top top",
+            ...scrollOptions,
             end: "+=230%",
-            pin: true,
-            scrub: 1,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
           },
           defaults: { ease: "none" },
         });
@@ -154,13 +159,8 @@ export default function HeroSection() {
       mm.add("(max-width: 767px)", () => {
         const scrollTl = gsap.timeline({
           scrollTrigger: {
-            trigger: pinRef.current,
-            start: "top top",
+            ...scrollOptions,
             end: "+=180%",
-            pin: true,
-            scrub: 1,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
           },
           defaults: { ease: "none" },
         });
@@ -226,7 +226,7 @@ export default function HeroSection() {
           <div className="relative order-1 flex h-[42vh] min-h-[280px] items-center justify-center lg:order-2 lg:h-full">
             <div className="focus-ring pointer-events-none absolute h-[58%] w-[58%] rounded-full border border-fizz-gold/25" />
             <div className="focus-ring pointer-events-none absolute h-[74%] w-[74%] rounded-full border border-fizz-cream/10" />
-            <div className="can-stage relative z-10">
+            <div className="can-stage relative z-10 will-change-transform">
               <ProductCan />
             </div>
           </div>

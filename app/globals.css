@@ -46,11 +46,13 @@ body {
 
 .can-stage {
   will-change: transform;
+  transform: translateZ(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .can-stage {
     will-change: auto;
+    transform: none;
   }
 
   .scroll-cue-line {

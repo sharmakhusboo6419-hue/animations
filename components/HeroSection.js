@@ -17,7 +17,6 @@ const HEADLINE = ["WELCOME", "ITZ", "FIZZ"];
 
 export default function HeroSection() {
   const rootRef = useRef(null);
-  const pinRef = useRef(null);
 
   useLayoutEffect(() => {
     const root = rootRef.current;
@@ -97,13 +96,15 @@ export default function HeroSection() {
       mm = gsap.matchMedia();
 
       const scrollOptions = {
-        trigger: pinRef.current,
+        // Use the whole hero <section> as the trigger and CSS `position: sticky`
+        // for the pinning effect. Native sticky is far more reliable than
+        // ScrollTrigger's `pin` (position: fixed) on real mobile browsers,
+        // where URL-bar show/hide resizes the viewport mid-scroll.
+        trigger: root,
         start: "top top",
-        pin: true,
+        end: "bottom bottom",
         scrub: 1,
-        anticipatePin: 1,
         invalidateOnRefresh: true,
-        pinReparent: false,
       };
 
       mm.add("(min-width: 768px)", () => {
@@ -234,7 +235,10 @@ export default function HeroSection() {
 
   return (
     <section ref={rootRef} className="relative bg-fizz-void">
-      <div ref={pinRef} className="relative flex h-dvh flex-col overflow-hidden">
+      {/* Extra scroll range: the sticky viewport stays pinned while the
+          section's height exceeds 100dvh. */}
+      <div className="relative h-[320dvh]">
+        <div className="sticky top-0 flex h-dvh flex-col overflow-hidden">
         <div className="hero-decor pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(139,45,60,0.28),transparent_42%),radial-gradient(circle_at_82%_70%,rgba(201,166,107,0.12),transparent_36%),linear-gradient(180deg,#14090d_0%,#1c1014_48%,#10080c_100%)]" />
         <div className="hero-grain hero-decor absolute inset-0" />
 
@@ -291,6 +295,7 @@ export default function HeroSection() {
             SCROLL
           </span>
           <span className="scroll-cue-line block h-8 w-px bg-fizz-gold" />
+        </div>
         </div>
       </div>
     </section>

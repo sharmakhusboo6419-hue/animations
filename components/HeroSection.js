@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Keeps pinning in sync with mobile URL-bar height changes
 if (typeof window !== "undefined") {
-  ScrollTrigger.config({ ignoreMobileResize: true });
+  ScrollTrigger.config({ ignoreMobileResize: true, autoRefreshEvents: "visibilitychange,DOMContentLoaded,load" });
 }
 
 const HEADLINE = ["WELCOME", "ITZ", "FIZZ"];
@@ -29,8 +29,6 @@ export default function HeroSection() {
     let mm;
     const cleanupFns = [];
     let isUnmounted = false;
-
-    ScrollTrigger.normalizeScroll(true);
 
     const ctx = gsap.context(() => {
       const headlineChars = root.querySelectorAll(".headline-char");
@@ -236,7 +234,7 @@ export default function HeroSection() {
 
   return (
     <section ref={rootRef} className="relative bg-fizz-void">
-      <div ref={pinRef} className="relative h-svh min-h-[640px] overflow-hidden">
+      <div ref={pinRef} className="relative h-dvh overflow-hidden">
         <div className="hero-decor pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(139,45,60,0.28),transparent_42%),radial-gradient(circle_at_82%_70%,rgba(201,166,107,0.12),transparent_36%),linear-gradient(180deg,#14090d_0%,#1c1014_48%,#10080c_100%)]" />
         <div className="hero-grain hero-decor absolute inset-0" />
 
@@ -252,7 +250,7 @@ export default function HeroSection() {
           </p>
         </header>
 
-        <div className="relative z-20 mx-auto grid h-[calc(100svh-5.5rem)] min-h-[580px] max-w-7xl grid-cols-1 items-center px-8 pb-16 pt-4 sm:px-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:pb-10">
+        <div className="relative z-20 mx-auto grid h-[calc(100dvh-5.5rem)] max-w-7xl grid-cols-1 items-center overflow-y-auto px-8 pb-16 pt-4 sm:px-12 lg:h-[calc(100dvh-5.5rem)] lg:min-h-[580px] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:overflow-visible lg:pb-10">
           <div className="hero-copy relative z-20 order-2 lg:order-1">
             <h1 className="font-display text-[clamp(2.4rem,7vw,6.4rem)] font-medium leading-[0.92] tracking-[0.18em] text-fizz-cream sm:tracking-[0.28em]">
               {HEADLINE.map((word) => (
@@ -275,7 +273,7 @@ export default function HeroSection() {
             <ImpactStats />
           </div>
 
-          <div className="relative order-1 flex h-[42vh] min-h-[280px] items-center justify-center lg:order-2 lg:h-full">
+          <div className="relative order-1 flex h-[36dvh] min-h-[220px] items-center justify-center lg:order-2 lg:h-full lg:min-h-0">
             <div className="focus-ring pointer-events-none absolute h-[58%] w-[58%] rounded-full border border-fizz-gold/25" />
             <div className="focus-ring pointer-events-none absolute h-[74%] w-[74%] rounded-full border border-fizz-cream/10" />
             <div className="can-stage relative z-10 will-change-transform">

@@ -8,6 +8,11 @@ import ProductCan from "./ProductCan";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Keeps pinning in sync with mobile URL-bar height changes
+if (typeof window !== "undefined") {
+  ScrollTrigger.config({ ignoreMobileResize: true });
+}
+
 const HEADLINE = ["WELCOME", "ITZ", "FIZZ"];
 
 export default function HeroSection() {
@@ -24,6 +29,8 @@ export default function HeroSection() {
     let mm;
     const cleanupFns = [];
     let isUnmounted = false;
+
+    ScrollTrigger.normalizeScroll(true);
 
     const ctx = gsap.context(() => {
       const headlineChars = root.querySelectorAll(".headline-char");

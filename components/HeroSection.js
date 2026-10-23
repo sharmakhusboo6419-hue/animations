@@ -234,7 +234,7 @@ export default function HeroSection() {
 
   return (
     <section ref={rootRef} className="relative bg-fizz-void">
-      <div ref={pinRef} className="relative h-dvh overflow-hidden">
+      <div ref={pinRef} className="relative flex h-dvh flex-col overflow-hidden">
         <div className="hero-decor pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(139,45,60,0.28),transparent_42%),radial-gradient(circle_at_82%_70%,rgba(201,166,107,0.12),transparent_36%),linear-gradient(180deg,#14090d_0%,#1c1014_48%,#10080c_100%)]" />
         <div className="hero-grain hero-decor absolute inset-0" />
 
@@ -250,7 +250,7 @@ export default function HeroSection() {
           </p>
         </header>
 
-        <div className="relative z-20 mx-auto grid h-[calc(100dvh-5.5rem)] max-w-7xl grid-cols-1 items-center overflow-y-auto px-8 pb-16 pt-4 sm:px-12 lg:h-[calc(100dvh-5.5rem)] lg:min-h-[580px] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:overflow-visible lg:pb-10">
+        <div className="relative z-20 mx-auto grid min-h-0 max-w-7xl flex-1 grid-cols-1 items-center px-8 pb-16 pt-4 sm:px-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:pb-10">
           <div className="hero-copy relative z-20 order-2 lg:order-1">
             <h1 className="font-display text-[clamp(2.4rem,7vw,6.4rem)] font-medium leading-[0.92] tracking-[0.18em] text-fizz-cream sm:tracking-[0.28em]">
               {HEADLINE.map((word) => (

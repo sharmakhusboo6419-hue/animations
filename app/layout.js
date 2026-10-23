@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${manrope.variable} ${oswald.variable} ${cormorant.variable} h-full antialiased`}
     >
-      <body className="min-h-full overflow-x-hidden bg-fizz-void text-fizz-cream">
+      <body className="min-h-full bg-fizz-void text-fizz-cream">
         {children}
       </body>
     </html>

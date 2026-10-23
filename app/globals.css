@@ -34,7 +34,6 @@ body {
   background: var(--fizz-void);
   color: var(--fizz-cream);
   font-family: var(--font-manrope), system-ui, sans-serif;
-  overflow-x: hidden;
 }
 
 .hero-grain {
